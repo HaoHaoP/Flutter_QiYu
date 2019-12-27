@@ -37,8 +37,6 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 public class QiyuPlugin implements FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler {
     private static String CHANNEL_NAME = "plugins.lazyyuuuuu.io/qiyu";
     private static String EVENT_CHANNEL_NAME = "plugins.lazyyuuuuu.io/event_qiyu";
-
-    private Context applicationContext;
     private Context context;
     private MethodChannel methodChannel;
     private EventChannel eventChannel;
@@ -54,15 +52,12 @@ public class QiyuPlugin implements FlutterPlugin, MethodCallHandler, EventChanne
 
     private YSFOptions options;
 
-    private QiyuPlugin(Context context) {
-        this.context = context;
-    }
-
     /**
      * Plugin registration.
      */
     public static void registerWith(Registrar registrar) {
-        QiyuPlugin qiyuPlugin = new QiyuPlugin(registrar.activity().getApplication().getApplicationContext());
+        QiyuPlugin qiyuPlugin = new QiyuPlugin();
+        qiyuPlugin.context = registrar.activity().getApplication().getApplicationContext();
         final MethodChannel channel = new MethodChannel(registrar.messenger(), CHANNEL_NAME);
         channel.setMethodCallHandler(qiyuPlugin);
         final EventChannel event = new EventChannel(registrar.messenger(), EVENT_CHANNEL_NAME);
@@ -71,7 +66,6 @@ public class QiyuPlugin implements FlutterPlugin, MethodCallHandler, EventChanne
 
     @Override
     public void onMethodCall(MethodCall call, @NonNull Result result) {
-        Context context = applicationContext != null ? applicationContext : this.context;
         switch (call.method) {
             case "getPlatformVersion":
                 result.success("Android " + android.os.Build.VERSION.RELEASE);
@@ -204,7 +198,7 @@ public class QiyuPlugin implements FlutterPlugin, MethodCallHandler, EventChanne
     }
 
     private void onAttachedToEngine(Context applicationContext, BinaryMessenger messenger) {
-        this.applicationContext = applicationContext;
+        context = applicationContext;
         methodChannel = new MethodChannel(messenger, CHANNEL_NAME);
         methodChannel.setMethodCallHandler(this);
         eventChannel = new EventChannel(messenger, EVENT_CHANNEL_NAME);
