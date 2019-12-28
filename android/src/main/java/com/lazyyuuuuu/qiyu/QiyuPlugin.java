@@ -94,12 +94,12 @@ public class QiyuPlugin implements FlutterPlugin, MethodCallHandler, EventChanne
                 break;
             case "openServiceWindow":
                 String sessionTitle = call.argument("sessionTitle");
-                int groupId = (int) call.argument("groupId");
-                int staffId = (int) call.argument("staffId");
-                int robotId = (int) call.argument("robotId");
+                Integer groupId = call.argument("groupId");
+                Integer staffId = call.argument("staffId");
+                Integer robotId = call.argument("robotId");
                 Integer vipLevel = call.argument("vipLevel");
-                boolean openRobotInShuntMode = (boolean) call.argument("openRobotInShuntMode");
-                int commonQuestionTemplateId = (int) call.argument("commonQuestionTemplateId");
+                Boolean openRobotInShuntMode = call.argument("openRobotInShuntMode");
+                Integer commonQuestionTemplateId = call.argument("commonQuestionTemplateId");
                 Map<String, String> sourceDict = call.argument("source");
                 Map<String, Object> commodityInfoDict = call.argument("commodityInfo");
                 List<Map<String, Object>> buttonInfoList = call.argument("buttonInfoArray");
